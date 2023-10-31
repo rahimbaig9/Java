@@ -1,0 +1,178 @@
+public class CircularLinkedList {
+    private Node head;
+    private int size;
+
+    private class Node {
+        int data;
+        Node next;
+
+        Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    // Method to insert a node at the beginning of the list
+    public void insertAtFirst(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+        } else {
+            Node current = head;
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = head;
+            head = newNode;
+        }
+        size++;
+    }
+
+    // Method to insert a node at the end of the list
+    public void insertAtLast(int data) {
+        Node newNode = new Node(data);
+
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+        } else {
+            Node current = head;
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = head;
+        }
+        size++;
+    }
+
+    // Method to insert a node at a particular index
+    public void insertAt(int data, int index) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Index out of bounds.");
+        }
+
+        if (index == 0) {
+            insertAtFirst(data);
+            return;
+        }
+
+        Node newNode = new Node(data);
+        Node current = head;
+        int currentIndex = 0;
+
+        while (currentIndex < index - 1) {
+            current = current.next;
+            currentIndex++;
+        }
+
+        newNode.next = current.next;
+        current.next = newNode;
+        size++;
+    }
+
+    // Method to delete the first node
+    public void deleteFirst() {
+        if (head == null) {
+            return;
+        }
+
+        if (size == 1) {
+            head = null;
+        } else {
+            Node current = head;
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = head.next;
+            head = head.next;
+        }
+        size--;
+    }
+
+    // Method to delete the last node
+    public void deleteAtEnd() {
+        if (head == null) {
+            return;
+        }
+
+        if (size == 1) {
+            head = null;
+        } else {
+            Node current = head;
+            Node previous = null;
+            while (current.next != head) {
+                previous = current;
+                current = current.next;
+            }
+            previous.next = head;
+        }
+        size--;
+    }
+
+    // Method to delete a node at a particular index
+    public void deleteAt(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of bounds.");
+        }
+
+        if (index == 0) {
+            deleteFirst();
+            return;
+        }
+
+        Node current = head;
+        int currentIndex = 0;
+
+        while (currentIndex < index - 1) {
+            current = current.next;
+            currentIndex++;
+        }
+
+        current.next = current.next.next;
+        size--;
+    }
+
+    // Method to display the elements of the list
+    public void display() {
+        if (head == null) {
+            return;
+        }
+
+        Node current = head;
+        do {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        } while (current != head);
+
+        System.out.println(" (size: " + size + ")");
+    }
+
+    public static void main(String[] args) {
+        CircularLinkedList myList = new CircularLinkedList();
+
+        myList.insertAtLast(1);
+        myList.insertAtLast(2);
+        myList.insertAtLast(3);
+
+        myList.display();
+
+        myList.insertAtFirst(0);
+        myList.display();
+
+        myList.insertAt(2, 2);
+        myList.display();
+
+        myList.deleteFirst();
+        myList.display();
+
+        myList.deleteAtEnd();
+        myList.display();
+
+        myList.deleteAt(1);
+        myList.display();
+    }
+}
