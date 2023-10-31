@@ -1,0 +1,32 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+public class ParenthesisChecker {
+
+    public static boolean isValidParentheses(String expression) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = expression.toCharArray();
+        for (char ch : chars) {
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == ']' || ch == '}') {
+                if (stack.isEmpty() || !isMatchingPair(stack.pop(), ch)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public static boolean isMatchingPair(char character1, char character2) {
+        return (character1 == '(' && character2 == ')') ||
+               (character1 == '[' && character2 == ']') ||
+               (character1 == '{' && character2 == '}');
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an expression with parentheses: ");
+        String expression = scanner.nextLine();
+        if (isValidParentheses(expression)) {
+            System.out.println("The parentheses in the expression are balanced.");
